@@ -8,6 +8,7 @@ on:
     tags:
     branches:
       - main
+      - covdbg-codecov-proof
 
 
 env:
@@ -89,3 +90,13 @@ jobs:
         with:
           name: coverage-windows
           path: build/coverage.xml
+
+      # Fork-only proof that the report is accepted by Codecov; not part of the upstream PR.
+      - name: Upload coverage to Codecov (fork proof)
+        uses: codecov/codecov-action@v5
+        with:
+          files: build/coverage.xml
+          flags: windows
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}
+          verbose: true
